@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ProductsModule } from './products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Products } from './products/product.entity';
+import { Product } from './products/product.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -12,7 +12,7 @@ import { Products } from './products/product.entity';
       "database": "nutrition",
       "username": "test",
       "password": "test",
-      "entities": [Products],
+      "entities": [Product],
       "extra": {
         "authSource": "admin"
       }

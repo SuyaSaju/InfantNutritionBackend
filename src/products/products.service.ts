@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Products } from './product.entity';
+import { Product } from './product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SearchDto } from './SearchDto';
@@ -7,8 +7,8 @@ import { SearchDto } from './SearchDto';
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectRepository(Products)
-    private readonly productsRepository: Repository<Products>,
+    @InjectRepository(Product)
+    private readonly productsRepository: Repository<Product>,
   ) {
   }
 

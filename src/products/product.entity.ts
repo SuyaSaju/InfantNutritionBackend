@@ -1,7 +1,7 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
-@Entity()
-export class Products {
+@Entity({name: 'products'})
+export class Product {
   @ObjectIdColumn()
   id: ObjectID;
 

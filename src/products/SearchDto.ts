@@ -1,4 +1,4 @@
-import { Products } from './product.entity';
+import { Product } from './product.entity';
 
 class MetaData {
   readonly offset: number
@@ -13,10 +13,10 @@ class MetaData {
 }
 
 export class SearchDto {
-  readonly results: Products[]
+  readonly results: Product[]
   readonly metadata: MetaData
 
-  constructor(results: Products[], offset: number, limit: number, totalResults: number) {
+  constructor(results: Product[], offset: number, limit: number, totalResults: number) {
     this.results = results
     this.metadata = new MetaData(offset, limit, totalResults)
   }
