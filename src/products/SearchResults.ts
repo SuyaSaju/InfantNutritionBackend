@@ -12,7 +12,7 @@ class MetaData {
   }
 }
 
-export class SearchDto {
+export class SearchResults {
   readonly results: Product[]
   readonly metadata: MetaData
 
