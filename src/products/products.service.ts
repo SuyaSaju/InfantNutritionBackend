@@ -2,8 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { SearchDto } from './SearchDto';
 import { ObjectID } from 'mongodb';
+import { SearchResults } from './SearchResults';
+import { SearchCriteria } from './SearchCriteria';
 
 @Injectable()
 export class ProductsService {
@@ -13,17 +14,17 @@ export class ProductsService {
   ) {
   }
 
-  async searchBy(productName: string, brand: string, offset: number, limit: number): Promise<SearchDto> {
+  async searchBy(searchCriteria: SearchCriteria): Promise<SearchResults> {
     let filterCondition = {};
-    if (productName) {
-      filterCondition = { ...filterCondition, name: productName };
+    if (searchCriteria.name) {
+      filterCondition = { ...filterCondition, name: searchCriteria.name };
     }
-    if (brand !== undefined) {
-      filterCondition = { ...filterCondition, brand: brand || { $exists: false } };
+    if (searchCriteria.brand !== undefined) {
+      filterCondition = { ...filterCondition, brand: searchCriteria.brand || { $exists: false } };
     }
     const totalResults = await this.productsRepository.count(filterCondition);
-    const products = await this.productsRepository.find({ where: filterCondition, skip: offset, take: limit });
-    if (products.length) return new SearchDto(products, offset, limit, totalResults);
+    const products = await this.productsRepository.find({ where: filterCondition, skip: Number(searchCriteria.offset), take: Number(searchCriteria.limit) });
+    if (products.length) return new SearchResults(products, searchCriteria.offset, searchCriteria.limit, totalResults);
     throw new NotFoundException('', 'No products found that satisfies the given search criteria');
   }
 
