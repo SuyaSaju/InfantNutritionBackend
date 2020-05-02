@@ -17,11 +17,10 @@ export class ProductsController {
 
   @Get('/products/:productId/images/:imageId')
   async getImage(@Param('productId') productId: string, @Response() res, @Param('imageId') imageId: string) {
-    const image = await this.productsService.findById(productId, imageId);
-    console.log('image '+ image)
-    if(image)
+    const imageData = await this.productsService.findByImage(productId, imageId);
+    if(imageData)
       res.code(200)
-        .type('image/png').send(image.photos[0].data.buffer)
+        .type('image/png').send(imageData)
     else
       res.code(404).send('Image not found')
   }

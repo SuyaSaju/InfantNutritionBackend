@@ -27,12 +27,17 @@ export class ProductsService {
     throw new NotFoundException('', 'No products found that satisfies the given search criteria');
   }
 
-  async findById(productId: string, imageId: string): Promise<Product> {
-    return this.productsRepository.findOne({ where:
+  async findByImage(productId: string, imageId: string): Promise<Buffer> {
+    const product = await this.productsRepository.findOne({ where:
         {
           _id: ObjectID(productId),
           'photos._id':  ObjectID(imageId)
         }
     });
+    if(product && product.photos && product.photos[0] && product.photos[0].data) {
+      const buffer = product.photos[0].data.buffer
+      return Promise.resolve(buffer);
+    }
+    return Promise.resolve(null)
   }
 }
