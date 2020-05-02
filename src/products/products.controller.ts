@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Response } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Query, Response } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { SearchDto } from './SearchDto';
 
@@ -18,7 +18,11 @@ export class ProductsController {
   @Get('/products/:productId/images/:imageId')
   async getImage(@Param('productId') productId: string, @Response() res, @Param('imageId') imageId: string) {
     const image = await this.productsService.findById(productId, imageId);
-    res.code(200)
-      .type('image/png').send(image.photos[0].data.buffer)
+    console.log('image '+ image)
+    if(image)
+      res.code(200)
+        .type('image/png').send(image.photos[0].data.buffer)
+    else
+      res.code(404).send('Image not found')
   }
 }
