@@ -3,6 +3,7 @@ import { Product } from './product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SearchDto } from './SearchDto';
+import { ObjectID } from 'mongodb';
 
 @Injectable()
 export class ProductsService {
@@ -24,5 +25,14 @@ export class ProductsService {
     const products = await this.productsRepository.find({ where: filterCondition, skip: offset, take: limit });
     if (products.length) return new SearchDto(products, offset, limit, totalResults);
     throw new NotFoundException('', 'No products found that satisfies the given search criteria');
+  }
+
+  async findById(productId: string, imageId: string): Promise<Product> {
+    return this.productsRepository.findOne({ where:
+        {
+          _id: ObjectID(productId),
+          'photos._id':  ObjectID(imageId)
+        }
+    });
   }
 }

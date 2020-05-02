@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Response } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { SearchDto } from './SearchDto';
 
@@ -13,5 +13,12 @@ export class ProductsController {
                       @Query('offset') offset: number,
                       @Query('limit') limit = 5): Promise<SearchDto> {
     return this.productsService.searchBy(productName, brand, Number(offset), Number(limit));
+  }
+
+  @Get('/products/:productId/images/:imageId')
+  async getImage(@Param('productId') productId: string, @Response() res, @Param('imageId') imageId: string) {
+    const image = await this.productsService.findById(productId, imageId);
+    res.code(200)
+      .type('image/png').send(image.photos[0].data.buffer)
   }
 }

@@ -10,9 +10,9 @@ This project is built using nestjs with fastify. The underlying database is mong
 
 To start the web-server locally, run
 
-'''bash
+```bash
     yarn docker-start
-'''
+```
 
 ## Notes
 
