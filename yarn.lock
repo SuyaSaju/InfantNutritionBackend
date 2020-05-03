@@ -162,14 +162,6 @@
     lodash "4.17.15"
     path-to-regexp "3.2.0"
 
-"@nestjs/testing@^7.0.0":
-  version "7.0.9"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.0.9.tgz#c6b342dd34f060f18406bd7eb753edc5ecbb35c7"
-  integrity sha512-dbcnKV5QfYkdyxVXuvRb/435MB/vP+OPqC3h4o3wb/39cL0EU7duANoMzjHxfI0K4kQCsM9iIbeNGFOAOaEBDA==
-  dependencies:
-    optional "0.1.4"
-    tslib "1.11.1"
-
 "@nestjs/typeorm@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@nestjs/typeorm/-/typeorm-7.0.0.tgz#0993a949bba81756317e8e865882184bd7f16133"
@@ -204,11 +196,6 @@
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
-"@types/cookiejar@*":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@types/cookiejar/-/cookiejar-2.1.1.tgz#90b68446364baf9efd8e8349bb36bd3852b75b80"
-  integrity sha512-aRnpPa7ysx3aNW60hTiCtLHlQaIFsXFCgQlpakNgDNVFzbtusSY8PwjAQgRWfSk0ekNoBjO51eQRB6upA9uuyw==
-
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -233,21 +220,6 @@
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
   integrity sha512-K5K+yml8LTo9bWJI/rECfIPrGgxdpeNbj+d53lwN4QjW1MCwlkhUms+gtdzigTeUyBr09+u8BwOIY3MXvHdcsA==
-
-"@types/superagent@*":
-  version "4.1.7"
-  resolved "https://registry.yarnpkg.com/@types/superagent/-/superagent-4.1.7.tgz#a7d92d98c490ee0f802a127fdf149b9a114f77a5"
-  integrity sha512-JSwNPgRYjIC4pIeOqLwWwfGj6iP1n5NE6kNBEbGx2V8H78xCPwx7QpNp9plaI30+W3cFEzJO7BIIsXE+dbtaGg==
-  dependencies:
-    "@types/cookiejar" "*"
-    "@types/node" "*"
-
-"@types/supertest@^2.0.8":
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/@types/supertest/-/supertest-2.0.9.tgz#049bddbcb0ee0d60a9b836ccc977d813a1c32325"
-  integrity sha512-0BTpWWWAO1+uXaP/oA0KW1eOZv4hc0knhrWowV06Gwwz3kqQxNO98fUFM2e15T+PdPRmOouNFrYvaBgdojPJ3g==
-  dependencies:
-    "@types/superagent" "*"
 
 "@types/swagger-schema-official@^2.0.20":
   version "2.0.21"
@@ -3362,11 +3334,6 @@ onetime@^5.1.0:
   integrity sha512-5NcSkPHhwTVFIQN+TUqXoS5+dlElHXdpAWu9I0HP20YOtIi+aZ0Ct82jdlILDxjLEAWwvm+qj1m6aEtsDVmm6Q==
   dependencies:
     mimic-fn "^2.1.0"
-
-optional@0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/optional/-/optional-0.1.4.tgz#cdb1a9bedc737d2025f690ceeb50e049444fd5b3"
-  integrity sha512-gtvrrCfkE08wKcgXaVwQVgwEQ8vel2dc5DDBn9RLQZ3YtmtkBss6A2HY6BnJH4N/4Ku97Ri/SF8sNWE2225WJw==
 
 optionator@^0.8.3:
   version "0.8.3"
