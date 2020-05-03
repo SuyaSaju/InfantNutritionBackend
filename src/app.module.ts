@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { ProductsModule } from './products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './products/product.entity';
+import { BrandsModule } from './brands/brands.module';
+import { Brand } from './brands/Brand';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -12,12 +14,12 @@ import { Product } from './products/product.entity';
       "database": "nutrition",
       "username": "test",
       "password": "test",
-      "entities": [Product],
+      "entities": [Product, Brand],
       "extra": {
         "authSource": "admin"
       }
     }
-  ), ProductsModule],
+  ), ProductsModule, BrandsModule],
   controllers: [AppController],
 })
 export class AppModule {}

@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, Response } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
-import { ApiParam, ApiProperty, ApiPropertyOptional, ApiResponse } from '@nestjs/swagger';
+import { ApiResponse } from '@nestjs/swagger';
 import { Review } from './Review';
 
 @Controller()
@@ -51,8 +51,8 @@ export class ProductsController {
       res.code(200).type('image/png').send(imageData);
     else
       res.code(404).send({
-        "statusCode": 404,
-        "message": "No image found that satisfies the given criteria"
+        'statusCode': 404,
+        'message': 'No image found that satisfies the given criteria',
       });
   }
 }
