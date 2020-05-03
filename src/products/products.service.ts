@@ -23,22 +23,26 @@ export class ProductsService {
       filterCondition = { ...filterCondition, brand: searchCriteria.brand || { $exists: false } };
     }
     const totalResults = await this.productsRepository.count(filterCondition);
-    const products = await this.productsRepository.find({ where: filterCondition, skip: Number(searchCriteria.offset), take: Number(searchCriteria.limit) });
+    const products = await this.productsRepository.find({
+      where: filterCondition,
+      skip: Number(searchCriteria.offset),
+      take: Number(searchCriteria.limit),
+    });
     if (products.length) return new SearchResults(products, searchCriteria.offset, searchCriteria.limit, totalResults);
     throw new NotFoundException('', 'No products found that satisfies the given search criteria');
   }
 
   async findByImage(productId: string, imageId: string): Promise<Buffer> {
-    const product = await this.productsRepository.findOne({ where:
+    const product = await this.productsRepository.findOne({
+      where:
         {
           _id: ObjectID(productId),
-          'photos._id':  ObjectID(imageId)
-        }
+          'photos._id': ObjectID(imageId),
+        },
     });
-    if(product && product.photos && product.photos[0] && product.photos[0].data) {
-      const buffer = product.photos[0].data.buffer
-      return Promise.resolve(buffer);
+    if (product && product.photos && product.photos[0] && product.photos[0].data) {
+      return product.photos[0].data.buffer;
     }
-    return Promise.resolve(null)
+    throw new NotFoundException('', 'Image not found');
   }
 }
