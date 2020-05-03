@@ -4,6 +4,10 @@ import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
 import { ApiResponse } from '@nestjs/swagger';
 import { Review } from './Review';
+import { Product } from './product.entity';
+import { getMongoRepository } from 'typeorm';
+import { Brand } from '../brands/Brand';
+import { createRatingsCollection, updateBrandIdInProductCollection } from '../Migration';
 
 @Controller()
 export class ProductsController {
@@ -54,5 +58,14 @@ export class ProductsController {
         'statusCode': 404,
         'message': 'No image found that satisfies the given criteria',
       });
+  }
+
+  @Get('migrate')
+  async migrate() {
+    const productRepository = getMongoRepository(Product);
+    const brandRepository = getMongoRepository(Brand);
+    await updateBrandIdInProductCollection(productRepository, brandRepository);
+    const products = await createRatingsCollection(productRepository, brandRepository)
+    return products;
   }
 }

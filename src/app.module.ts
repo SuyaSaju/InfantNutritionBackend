@@ -5,16 +5,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './products/product.entity';
 import { BrandsModule } from './brands/brands.module';
 import { Brand } from './brands/Brand';
+import { Rating } from './products/rating.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
       "type": "mongodb",
-      "host": "54.166.234.235",
+      "host": "192.168.0.5",
       "port": 27017,
       "database": "nutrition",
       "username": "test",
       "password": "test",
-      "entities": [Product, Brand],
+      "entities": [Product, Brand, Rating],
       "extra": {
         "authSource": "admin"
       }
