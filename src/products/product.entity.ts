@@ -1,7 +1,8 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 import { Photo } from './Photo';
+import { Review } from './Review';
 
-@Entity({name: 'products'})
+@Entity({ name: 'products' })
 export class Product {
   @ObjectIdColumn()
   id: ObjectID;
@@ -16,6 +17,8 @@ export class Product {
   description: string;
 
   @Column()
-  photos : Array<Photo>
+  photos: Photo[];
 
+  @Column()
+  reviews: Review[];
 }

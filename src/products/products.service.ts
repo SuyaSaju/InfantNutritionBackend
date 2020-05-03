@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
+import { Review } from './Review';
 
 @Injectable()
 export class ProductsService {
@@ -32,6 +33,13 @@ export class ProductsService {
     throw new NotFoundException('', 'No products found that satisfies the given search criteria');
   }
 
+  async getReviews(productId: string): Promise<Review[]> {
+    const product = await this.productsRepository.findOne(productId);
+    console.log(product);
+    if (!product) throw new NotFoundException('', 'Product not found for the given id');
+    return product.reviews;
+  }
+
   async findByImage(productId: string, imageId: string): Promise<Buffer> {
     const product = await this.productsRepository.findOne({
       where:
@@ -41,8 +49,9 @@ export class ProductsService {
         },
     });
     if (product && product.photos && product.photos[0] && product.photos[0].data) {
-      return product.photos[0].data.buffer;
+      const buffer = product.photos[0].data.buffer;
+      return Promise.resolve(buffer);
     }
-    throw new NotFoundException('', 'Image not found');
+    return Promise.resolve(null);
   }
 }
