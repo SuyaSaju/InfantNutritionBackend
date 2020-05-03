@@ -5,9 +5,9 @@ import { Brand } from './brands/Brand.entity';
 import {
   createPriceCollection,
   createRatingsCollection,
-  createReviewsCollection,
+  createReviewsCollection, createSentimentCollection,
   updateBrandIdInProductCollection,
-} from './Migration';
+} from './migration';
 
 @Controller()
 export class AppController {
@@ -21,10 +21,11 @@ export class AppController {
   async migrate() {
     const productRepository = getMongoRepository(Product);
     const brandRepository = getMongoRepository(Brand);
-    // await updateBrandIdInProductCollection(productRepository, brandRepository);
-    // await createRatingsCollection(productRepository);
-    // await createReviewsCollection(productRepository);
+    await updateBrandIdInProductCollection(productRepository, brandRepository);
+    await createRatingsCollection(productRepository);
+    await createReviewsCollection(productRepository);
     await createPriceCollection(productRepository);
+    await createSentimentCollection(productRepository);
     return 'products';
   }
 }

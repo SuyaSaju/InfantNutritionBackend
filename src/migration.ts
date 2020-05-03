@@ -3,6 +3,7 @@ import { Rating } from './products/rating.entity';
 import { Product } from './products/product.entity';
 import { Review } from './products/review.entity';
 import { Price } from './products/price.entity';
+import { Sentiment } from './products/Sentiment';
 
 export const createReviewsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Review);
@@ -23,6 +24,25 @@ export const createReviewsCollection = async (productRepository) => {
   console.log(count + " reviews are added to `reviews` collection")
 };
 
+export const createSentimentCollection = async (productRepository) => {
+  const sentimentRepository = getMongoRepository(Sentiment);
+  const products = await productRepository.find({select: ['sentiment', 'id']})
+  let count = 1;
+  products.forEach((product : Product) => {
+    console.log(product);
+    if(product.sentiment) {
+      sentimentRepository.insertOne({
+        ...product.sentiment,
+        productId: product.id,
+      });
+      ++count
+    }
+  });
+  console.log(count + " sentiments data extracted from Product table to ratings table")
+  return products
+
+};
+
 export const createPriceCollection = async (productRepository) => {
   const priceRepository = getMongoRepository(Price);
   const products = await productRepository.find({select: ['price', 'id']})
@@ -40,7 +60,7 @@ export const createPriceCollection = async (productRepository) => {
   console.log(count + " prices data extracted from Product table to ratings table")
   return products
 
-}
+};
 export const createRatingsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Rating);
   const products = await productRepository.find({select: ['brandId', 'rating', 'id']})

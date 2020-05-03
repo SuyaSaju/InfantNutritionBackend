@@ -3,6 +3,7 @@ import { Photo } from './Photo';
 import { Review } from './review.entity';
 import { Rating } from './rating.entity';
 import { Price } from './price.entity';
+import { Sentiment } from './Sentiment';
 
 @Entity({ name: 'products_v1' })
 export class Product {
@@ -32,4 +33,7 @@ export class Product {
 
   @Column()
   price: Price;
+
+  @Column()
+  sentiment: Sentiment;
 }
