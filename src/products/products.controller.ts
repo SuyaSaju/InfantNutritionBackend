@@ -3,7 +3,7 @@ import { ProductsService } from './products.service';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
 import { ApiResponse } from '@nestjs/swagger';
-import { Review } from './Review';
+import { Review } from './review.entity';
 import { Product } from './product.entity';
 import { getMongoRepository } from 'typeorm';
 import { createRatingsCollection, createReviewsCollection, updateBrandIdInProductCollection } from '../Migration';
@@ -64,9 +64,9 @@ export class ProductsController {
   async migrate() {
     const productRepository = getMongoRepository(Product);
     const brandRepository = getMongoRepository(Brand);
-    // await updateBrandIdInProductCollection(productRepository, brandRepository);
-    const products = await createRatingsCollection(productRepository, brandRepository)
-    const test = await createReviewsCollection(productRepository, brandRepository)
-    return products;
+    await updateBrandIdInProductCollection(productRepository, brandRepository);
+    await createRatingsCollection(productRepository);
+    await createReviewsCollection(productRepository);
+    return 'products';
   }
 }

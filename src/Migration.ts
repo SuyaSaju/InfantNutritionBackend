@@ -1,12 +1,28 @@
 import { getMongoRepository } from 'typeorm';
 import { Rating } from './products/rating.entity';
 import { Product } from './products/product.entity';
+import { Review } from './products/review.entity';
 
-export const createReviewsCollection = async (productRepository, brandRepository) => {
-  const ratingRepository = getMongoRepository(Rating);
-}
+export const createReviewsCollection = async (productRepository) => {
+  const ratingRepository = getMongoRepository(Review);
+  const products = await productRepository.find({select: ['brandId', 'reviews', 'id']})
+  let count = 1;
+  products.forEach((product : Product) => {
+    if(product.reviews) {
+      product.reviews.forEach((review) => {
+        ratingRepository.insertOne({
+          ...review,
+          productId: product.id,
+          brandId: product.brandId
+        });
+        ++count;
+      })
+    }
+  });
+  console.log(count + " reviews are added to `reviews` collection")
+};
 
-export const createRatingsCollection = async (productRepository, brandRepository) => {
+export const createRatingsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Rating);
   const products = await productRepository.find({select: ['brandId', 'rating', 'id']})
   let count = 1
@@ -14,13 +30,7 @@ export const createRatingsCollection = async (productRepository, brandRepository
     console.log(product)
     if(product.rating) {
       ratingRepository.insertOne({
-        overall: product.rating.overall,
-        total: product.rating.total,
-        fiveStars: product.rating.fiveStars,
-        fourStars: product.rating.fourStars,
-        threeStars: product.rating.fourStars,
-        twoStars: product.rating.twoStars,
-        oneStars: product.rating.oneStars,
+        ...product.rating,
         productId: product.id,
         brandId: product.brandId
       });
@@ -51,7 +61,6 @@ export const updateBrandIdInProductCollection =  async (productRepository, brand
     }
   });
   productBrandMap.forEach((value, key) => {
-    console.log(`update - ${key} : ${value}`);
     productRepository.updateOne(
       {
         _id: key,

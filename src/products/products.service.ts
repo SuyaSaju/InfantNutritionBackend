@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
-import { Review } from './Review';
+import { Review } from './review.entity';
 
 @Injectable()
 export class ProductsService {

@@ -6,6 +6,7 @@ import { Product } from './products/product.entity';
 import { BrandsModule } from './brands/brands.module';
 import { Rating } from './products/rating.entity';
 import { Brand } from './brands/Brand.entity';
+import { Review } from './products/review.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -15,7 +16,7 @@ import { Brand } from './brands/Brand.entity';
       'database': 'nutrition',
       'username': 'test',
       'password': 'test',
-      'entities': [Product, Brand, Rating],
+      'entities': [Product, Brand, Rating, Review],
       'extra': {
         'authSource': 'admin',
       },

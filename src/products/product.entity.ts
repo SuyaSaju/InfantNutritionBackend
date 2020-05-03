@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 import { Photo } from './Photo';
-import { Review } from './Review';
+import { Review } from './review.entity';
 import { Rating } from './rating.entity';
 
 @Entity({ name: 'products_v1' })
