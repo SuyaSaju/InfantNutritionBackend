@@ -19,7 +19,6 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {
   }
 
-  @Get('search')
   @ApiResponse({
     status: 200,
     description: 'Returns the list of products and the metadata information to help in pagination',
@@ -28,11 +27,11 @@ export class ProductsController {
     status: 404,
     description: 'Not Found Exception when there are no products matching the search criteria',
   })
+  @Get('search')
   async searchProduct(@Query() searchCriteria: SearchCriteria): Promise<SearchResults> {
     return this.productsService.searchBy(searchCriteria);
   }
 
-  @Get('products/:productId/reviews')
   @ApiResponse({
     status: 200,
     description: 'Returns the list of reviews associated to the product given a product id',
@@ -41,6 +40,7 @@ export class ProductsController {
     status: 404,
     description: 'Not Found Exception when there are no products matching the given product id',
   })
+  @Get('products/:productId/reviews')
   async getReviews(@Param('productId') productId: string): Promise<Review[]> {
     return this.productsService.getReviews(productId);
   }

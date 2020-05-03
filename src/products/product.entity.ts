@@ -1,4 +1,4 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
+import { Column, Entity, ObjectID, ObjectIdColumn, OneToMany } from 'typeorm';
 import { Photo } from './Photo';
 import { Review } from './review.entity';
 import { Rating } from './rating.entity';
@@ -26,6 +26,7 @@ export class Product {
   photos: Photo[];
 
   @Column()
+  @OneToMany(type => Review, review => review.productId)
   reviews: Review[];
 
   @Column()

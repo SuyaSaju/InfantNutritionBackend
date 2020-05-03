@@ -1,15 +1,17 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectID, ObjectIdColumn } from 'typeorm';
+import { Product } from './product.entity';
 
 @Entity({ name: 'reviews' })
 export class Review {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @ObjectIdColumn()
-  brandId: ObjectID;
+  @Column()
+  brandId: string;
 
-  @ObjectIdColumn()
-  productId: ObjectID;
+  @Column()
+  @ManyToOne(type => Product, product => product.reviews)
+  productId: string;
 
   @Column()
   name: string;
@@ -33,8 +35,9 @@ export class Review {
   foundHelpful: number;
 
   @Column()
-  sentiment: ReviewSentiment
+  sentiment: ReviewSentiment;
 }
+
 export interface ReviewSentiment {
   positive: number
   negative: number

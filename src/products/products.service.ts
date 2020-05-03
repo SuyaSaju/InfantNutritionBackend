@@ -12,6 +12,8 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
+    @InjectRepository(Review)
+    private readonly reviewsRepository: Repository<Review>,
   ) {
   }
 
@@ -28,7 +30,7 @@ export class ProductsService {
       where: filterCondition,
       skip: Number(searchCriteria.offset),
       take: Number(searchCriteria.limit),
-      select: ['name', 'brand', 'description']
+      select: ['name', 'brand', 'description'],
     });
     if (products.length) return new SearchResults(products, searchCriteria.offset, searchCriteria.limit, totalResults);
     throw new NotFoundException('', 'No products found that satisfies the given search criteria');

@@ -2,22 +2,22 @@ import { Brand } from '../Brand.entity';
 import { NutrientProductResult } from '../brands.service';
 
 class NutritientStats {
-  name: string;
+  nutritientName: string;
   productPercentage: number;
 
-  constructor(name: string, productPercentage: number) {
-    this.name = name;
+  constructor(nutritientName: string, productPercentage: number) {
+    this.nutritientName = nutritientName;
     this.productPercentage = productPercentage;
   }
 }
 
 export class BrandNutrientDto {
   brand: Brand;
-  nutrientStats: NutritientStats[];
+  stats: NutritientStats[];
 
   constructor(brand: Brand, nutrientProductResults: NutrientProductResult[], noOfProductsInBrand: number) {
     this.brand = brand;
-    this.nutrientStats = nutrientProductResults.map(result =>
+    this.stats = nutrientProductResults.map(result =>
       new NutritientStats(result.nutrient, (result.productCount / noOfProductsInBrand) * 100),
     );
   }
