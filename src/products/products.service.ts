@@ -41,17 +41,21 @@ export class ProductsService {
   }
 
   async findByImage(productId: string, imageId: string): Promise<Buffer> {
-    const product = await this.productsRepository.findOne({
-      where:
-        {
-          _id: ObjectID(productId),
-          'photos._id': ObjectID(imageId),
-        },
-    });
-    if (product && product.photos && product.photos[0] && product.photos[0].data) {
-      const buffer = product.photos[0].data.buffer;
-      return Promise.resolve(buffer);
+    try {
+      const product = await this.productsRepository.findOne({
+        where:
+          {
+            _id: ObjectID(productId),
+            'photos._id': ObjectID(imageId),
+          },
+      });
+      if (product && product.photos && product.photos[0] && product.photos[0].data) {
+        const buffer = product.photos[0].data.buffer;
+        return Promise.resolve(buffer);
+      }
+      return Promise.resolve(null);
+    } catch (e) {
+      return Promise.resolve(null);
     }
-    return Promise.resolve(null);
   }
 }

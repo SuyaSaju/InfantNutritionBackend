@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, Response } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiParam, ApiProperty, ApiPropertyOptional, ApiResponse } from '@nestjs/swagger';
 import { Review } from './Review';
 
 @Controller()
@@ -36,12 +36,23 @@ export class ProductsController {
     return this.productsService.getReviews(productId);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the product\'s image for the given productId and imageId',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Not Found Exception when there are no images matching the given criteria',
+  })
   @Get('/products/:productId/images/:imageId')
   async getImage(@Param('productId') productId: string, @Response() res, @Param('imageId') imageId: string) {
     const imageData = await this.productsService.findByImage(productId, imageId);
     if (imageData)
       res.code(200).type('image/png').send(imageData);
     else
-      res.code(404).send('Image not found');
+      res.code(404).send({
+        "statusCode": 404,
+        "message": "No image found that satisfies the given criteria"
+      });
   }
 }
