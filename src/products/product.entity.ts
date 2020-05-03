@@ -8,6 +8,9 @@ export class Product {
   @ObjectIdColumn()
   id: ObjectID;
 
+  @ObjectIdColumn()
+  brandId: ObjectID;
+
   @Column()
   name: string;
 

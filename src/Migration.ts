@@ -2,11 +2,13 @@ import { getMongoRepository } from 'typeorm';
 import { Rating } from './products/rating.entity';
 import { Product } from './products/product.entity';
 
-export const createRatingsCollection = async (productRepository, brandRepository) =>{
+export const createReviewsCollection = async (productRepository, brandRepository) => {
   const ratingRepository = getMongoRepository(Rating);
-  const products = await productRepository.aggregate([
-    { $project: { brandId: 1, rating: 1, id: 1 } },
-  ]).toArray();
+}
+
+export const createRatingsCollection = async (productRepository, brandRepository) => {
+  const ratingRepository = getMongoRepository(Rating);
+  const products = await productRepository.find({select: ['brandId', 'rating', 'id']})
   let count = 1
   products.forEach((product : Product) => {
     console.log(product)
@@ -18,7 +20,9 @@ export const createRatingsCollection = async (productRepository, brandRepository
         fourStars: product.rating.fourStars,
         threeStars: product.rating.fourStars,
         twoStars: product.rating.twoStars,
-        oneStars: product.rating.oneStars
+        oneStars: product.rating.oneStars,
+        productId: product.id,
+        brandId: product.brandId
       });
       ++count
     }

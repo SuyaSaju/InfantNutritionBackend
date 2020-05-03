@@ -5,6 +5,12 @@ export class Rating {
   @ObjectIdColumn()
   id: ObjectID;
 
+  @ObjectIdColumn()
+  brandId: ObjectID;
+
+  @ObjectIdColumn()
+  productId: ObjectID;
+
   @Column()
   overall: number;
 

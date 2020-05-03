@@ -6,8 +6,8 @@ import { ApiResponse } from '@nestjs/swagger';
 import { Review } from './Review';
 import { Product } from './product.entity';
 import { getMongoRepository } from 'typeorm';
-import { Brand } from '../brands/Brand';
-import { createRatingsCollection, updateBrandIdInProductCollection } from '../Migration';
+import { createRatingsCollection, createReviewsCollection, updateBrandIdInProductCollection } from '../Migration';
+import { Brand } from '../brands/Brand.entity';
 
 @Controller()
 export class ProductsController {
@@ -64,8 +64,9 @@ export class ProductsController {
   async migrate() {
     const productRepository = getMongoRepository(Product);
     const brandRepository = getMongoRepository(Brand);
-    await updateBrandIdInProductCollection(productRepository, brandRepository);
+    // await updateBrandIdInProductCollection(productRepository, brandRepository);
     const products = await createRatingsCollection(productRepository, brandRepository)
+    const test = await createReviewsCollection(productRepository, brandRepository)
     return products;
   }
 }
