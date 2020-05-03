@@ -28,16 +28,19 @@ export class ProductsService {
       where: filterCondition,
       skip: Number(searchCriteria.offset),
       take: Number(searchCriteria.limit),
+      select: ['name', 'brand', 'description']
     });
     if (products.length) return new SearchResults(products, searchCriteria.offset, searchCriteria.limit, totalResults);
     throw new NotFoundException('', 'No products found that satisfies the given search criteria');
   }
 
   async getReviews(productId: string): Promise<Review[]> {
-    const product = await this.productsRepository.findOne(productId);
-    console.log(product);
-    if (!product) throw new NotFoundException('', 'Product not found for the given id');
-    return product.reviews;
+    try {
+      const product = await this.productsRepository.findOneOrFail(productId, { select: ['reviews'] });
+      return product.reviews;
+    } catch (e) {
+      throw new NotFoundException('', 'Product not found for the given id');
+    }
   }
 
   async findByImage(productId: string, imageId: string): Promise<Buffer> {
