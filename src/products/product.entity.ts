@@ -3,15 +3,15 @@ import { Photo } from './Photo';
 import { Review } from './review.entity';
 import { Rating } from './rating.entity';
 import { Price } from './price.entity';
-import { Sentiment } from './Sentiment';
+import { Sentiment } from './sentiment.entity';
 
 @Entity({ name: 'products_v1' })
 export class Product {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @ObjectIdColumn()
-  brandId: ObjectID;
+  @Column()
+  brandId: string;
 
   @Column()
   name: string;

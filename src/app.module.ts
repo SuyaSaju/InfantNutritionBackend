@@ -8,7 +8,7 @@ import { Rating } from './products/rating.entity';
 import { Brand } from './brands/Brand.entity';
 import { Review } from './products/review.entity';
 import { Price } from './products/price.entity';
-import { Sentiment } from './products/Sentiment';
+import { Sentiment } from './products/sentiment.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({

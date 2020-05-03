@@ -3,7 +3,7 @@ import { Rating } from './products/rating.entity';
 import { Product } from './products/product.entity';
 import { Review } from './products/review.entity';
 import { Price } from './products/price.entity';
-import { Sentiment } from './products/Sentiment';
+import { Sentiment } from './products/sentiment.entity';
 
 export const createReviewsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Review);
@@ -11,6 +11,7 @@ export const createReviewsCollection = async (productRepository) => {
   let count = 1;
   products.forEach((product : Product) => {
     if(product.reviews) {
+      console.log(product)
       product.reviews.forEach((review) => {
         ratingRepository.insertOne({
           ...review,

@@ -5,8 +5,8 @@ export class Sentiment {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @ObjectIdColumn()
-  productId: ObjectID;
+  @Column()
+  productId: string;
 
   @Column()
   positive: number;

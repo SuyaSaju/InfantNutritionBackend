@@ -5,8 +5,8 @@ export class Price {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @ObjectIdColumn()
-  productId: ObjectID;
+  @Column()
+  productId: string;
 
   @Column()
   amount: number;

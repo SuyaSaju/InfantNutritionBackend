@@ -5,11 +5,11 @@ export class Rating {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @ObjectIdColumn()
-  brandId: ObjectID;
+  @Column()
+  brandId: string;
 
-  @ObjectIdColumn()
-  productId: ObjectID;
+  @Column()
+  productId: string;
 
   @Column()
   overall: number;
