@@ -6,7 +6,12 @@ import { ApiResponse } from '@nestjs/swagger';
 import { Review } from './review.entity';
 import { Product } from './product.entity';
 import { getMongoRepository } from 'typeorm';
-import { createRatingsCollection, createReviewsCollection, updateBrandIdInProductCollection } from '../Migration';
+import {
+  createPriceCollection,
+  createRatingsCollection,
+  createReviewsCollection,
+  updateBrandIdInProductCollection,
+} from '../Migration';
 import { Brand } from '../brands/Brand.entity';
 
 @Controller()
@@ -58,15 +63,5 @@ export class ProductsController {
         'statusCode': 404,
         'message': 'No image found that satisfies the given criteria',
       });
-  }
-
-  @Get('migrate')
-  async migrate() {
-    const productRepository = getMongoRepository(Product);
-    const brandRepository = getMongoRepository(Brand);
-    await updateBrandIdInProductCollection(productRepository, brandRepository);
-    await createRatingsCollection(productRepository);
-    await createReviewsCollection(productRepository);
-    return 'products';
   }
 }

@@ -2,6 +2,7 @@ import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 import { Photo } from './Photo';
 import { Review } from './review.entity';
 import { Rating } from './rating.entity';
+import { Price } from './price.entity';
 
 @Entity({ name: 'products_v1' })
 export class Product {
@@ -28,4 +29,7 @@ export class Product {
 
   @Column()
   rating: Rating;
+
+  @Column()
+  price: Price;
 }

@@ -2,6 +2,7 @@ import { getMongoRepository } from 'typeorm';
 import { Rating } from './products/rating.entity';
 import { Product } from './products/product.entity';
 import { Review } from './products/review.entity';
+import { Price } from './products/price.entity';
 
 export const createReviewsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Review);
@@ -22,6 +23,24 @@ export const createReviewsCollection = async (productRepository) => {
   console.log(count + " reviews are added to `reviews` collection")
 };
 
+export const createPriceCollection = async (productRepository) => {
+  const priceRepository = getMongoRepository(Price);
+  const products = await productRepository.find({select: ['price', 'id']})
+  let count = 1;
+  products.forEach((product : Product) => {
+    console.log(product);
+    if(product.price) {
+      priceRepository.insertOne({
+        ...product.price,
+        productId: product.id,
+      });
+      ++count
+    }
+  });
+  console.log(count + " prices data extracted from Product table to ratings table")
+  return products
+
+}
 export const createRatingsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Rating);
   const products = await productRepository.find({select: ['brandId', 'rating', 'id']})
@@ -37,9 +56,7 @@ export const createRatingsCollection = async (productRepository) => {
       ++count
     }
   });
-
   console.log(count + " ratings data extracted from Product table to ratings table")
-
   return products
 
 }
