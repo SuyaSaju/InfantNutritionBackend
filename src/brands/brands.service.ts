@@ -9,6 +9,7 @@ import { Review, ReviewSentiment } from '../products/entities/review.entity';
 import { Product } from '../products/entities/product.entity';
 import { BrandRatingsCount } from './dtos/BrandRatingsCount';
 import { Rating } from '../products/entities/rating.entity';
+import { Timeline } from './Timeline';
 
 export interface NutrientProductResult {
   productCount: number;
@@ -90,9 +91,9 @@ export class BrandsService {
     });
   }
 
-  async getBrandRatingsCount(startDate: Date, endDate: Date): Promise<BrandRatingsCount[]> {
+  async getBrandRatingsCount(timeline: Timeline): Promise<BrandRatingsCount[]> {
     const brandRatingCounts: BrandRatingCount[] = await this.ratingsRepository.aggregate([
-      { $match: { date: { $gte: new Date('2020-05-01'), $lte: new Date('2020-06-30') } } },
+      { $match: { date: { $gte: new Date(timeline.startDate), $lte: new Date(timeline.endDate) } } },
       { $group: { _id: '$brandId', count: { $sum: 1 } } },
     ]).toArray();
     const brands = await this.getAllBrands();

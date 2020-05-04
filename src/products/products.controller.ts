@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Response } from '@nestjs/common';
+import { Controller, Get, Param, Query, Response, ValidationPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
