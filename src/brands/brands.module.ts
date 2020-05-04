@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { BrandsController } from './brands.controller';
 import { BrandsService } from './brands.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Product } from '../products/product.entity';
 import { Brand } from './Brand.entity';
-import { Review } from '../products/review.entity';
+import { Product } from '../products/entities/product.entity';
+import { Review } from '../products/entities/review.entity';
 
 @Module({
   controllers: [BrandsController],

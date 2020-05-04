@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Product } from './product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
-import { Review } from './review.entity';
+import { Product } from './entities/product.entity';
+import { Review } from './entities/review.entity';
 
 @Injectable()
 export class ProductsService {

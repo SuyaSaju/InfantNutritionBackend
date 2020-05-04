@@ -1,6 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 import { getMongoRepository } from 'typeorm';
-import { Product } from './products/product.entity';
 import { Brand } from './brands/Brand.entity';
 import {
   createPriceCollection,
@@ -8,6 +7,7 @@ import {
   createReviewsCollection, createSentimentCollection,
   updateBrandIdInProductCollection,
 } from './migration';
+import { Product } from './products/entities/product.entity';
 
 @Controller()
 export class AppController {

@@ -1,5 +1,5 @@
 import { Brand } from '../Brand.entity';
-import { ReviewSentiment } from '../../products/review.entity';
+import { ReviewSentiment } from '../../products/entities/review.entity';
 
 export class BrandReviewStats {
   brand: Brand;

@@ -3,16 +3,7 @@ import { ProductsService } from './products.service';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
 import { ApiResponse } from '@nestjs/swagger';
-import { Review } from './review.entity';
-import { Product } from './product.entity';
-import { getMongoRepository } from 'typeorm';
-import {
-  createPriceCollection,
-  createRatingsCollection,
-  createReviewsCollection,
-  updateBrandIdInProductCollection,
-} from '../Migration';
-import { Brand } from '../brands/Brand.entity';
+import { Review } from './entities/review.entity';
 
 @Controller()
 export class ProductsController {

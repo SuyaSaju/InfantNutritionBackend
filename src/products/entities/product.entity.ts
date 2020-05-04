@@ -1,9 +1,9 @@
-import { Column, Entity, ObjectID, ObjectIdColumn, OneToMany } from 'typeorm';
-import { Photo } from './Photo';
+import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 import { Review } from './review.entity';
 import { Rating } from './rating.entity';
 import { Price } from './price.entity';
 import { Sentiment } from './sentiment.entity';
+import { Photo } from '../Photo';
 
 @Entity({ name: 'products_v1' })
 export class Product {

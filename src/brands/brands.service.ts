@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from '../products/product.entity';
 import { MongoRepository, Repository } from 'typeorm';
 import { BrandNutrientDto } from './dtos/BrandNutrientDto';
 import { Brand } from './Brand.entity';
 import { BrandIngredientDto } from './dtos/BrandIngredientDto';
-import { Review, ReviewSentiment } from '../products/review.entity';
 import { BrandReviewStats } from './dtos/BrandReviewStats';
+import { Review, ReviewSentiment } from '../products/entities/review.entity';
+import { Product } from '../products/entities/product.entity';
 
 export interface NutrientProductResult {
   productCount: number;
