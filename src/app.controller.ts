@@ -21,11 +21,13 @@ export class AppController {
   async migrate() {
     const productRepository = getMongoRepository(Product);
     const brandRepository = getMongoRepository(Brand);
-    await updateBrandIdInProductCollection(productRepository, brandRepository);
-    await createRatingsCollection(productRepository);
-    await createReviewsCollection(productRepository);
-    await createPriceCollection(productRepository);
-    await createSentimentCollection(productRepository);
-    return 'products';
+    // await updateBrandIdInProductCollection(productRepository, brandRepository);
+    // await createRatingsCollection(productRepository);
+    // await createReviewsCollection(productRepository);
+    const pricesResult = await createPriceCollection(productRepository);
+    // await createSentimentCollection(productRepository);
+    return {
+      ...pricesResult
+    };
   }
 }

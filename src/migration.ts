@@ -5,6 +5,10 @@ import { Review } from './products/review.entity';
 import { Price } from './products/price.entity';
 import { Sentiment } from './products/sentiment.entity';
 
+const random = (min, max) => { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
 export const createReviewsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Review);
   const products = await productRepository.find({select: ['brandId', 'reviews', 'id']})
@@ -48,20 +52,43 @@ export const createPriceCollection = async (productRepository) => {
   const priceRepository = getMongoRepository(Price);
   const products = await productRepository.find({select: ['price', 'id']})
   let count = 1;
+  const today = new Date();
+
   products.forEach((product : Product) => {
-    console.log(product);
     if(product.price) {
       priceRepository.insertOne({
         ...product.price,
         productId: product.id,
+        date: today
       });
       ++count
     }
   });
-  console.log(count + " prices data extracted from Product table to ratings table")
-  return products
+  const prices = await priceRepository.find()
+  prices.forEach((price : Price) => {
+    for(let i = 1; i < 4; i ++) {
+      today.setDate(today.getDate() + 1);
+      const newPrice = {
+        amount: price.amount + random(1, 10),
+        productId: price.productId,
+        currency: price.currency,
+        date: today,
+      };
+
+      priceRepository.insertOne({
+        ...newPrice,
+      });
+      ++count
+      console.log("new price: "+JSON.stringify(newPrice));
+    }
+  });
+  console.log(count + " mock prices are added to Price table")
+  return {
+    "priceCollection" : count + " mock prices are added to price collection!"
+  }
 
 };
+
 export const createRatingsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Rating);
   const products = await productRepository.find({select: ['brandId', 'rating', 'id']})
