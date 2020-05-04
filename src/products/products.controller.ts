@@ -1,8 +1,8 @@
-import { Controller, Get, Param, Query, Response, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Param, Query, Response } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { Review } from './entities/review.entity';
 
 @Controller()
@@ -21,6 +21,17 @@ export class ProductsController {
   @Get('search')
   async searchProduct(@Query() searchCriteria: SearchCriteria): Promise<SearchResults> {
     return this.productsService.searchBy(searchCriteria);
+  }
+
+  @ApiOkResponse({
+    description: 'Returns the details of the product for the given product id with historical price, ratings, review and sentiments data',
+  })
+  @ApiNotFoundResponse({
+    description: 'Not Found Exception when there is no product for the given id',
+  })
+  @Get('products/:productId')
+  async getProduct(@Param('productId') productId: string): Promise<any> {
+    return this.productsService.getProduct(productId);
   }
 
   @ApiResponse({

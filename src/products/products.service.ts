@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MongoRepository, Repository } from 'typeorm';
 import { ObjectID } from 'mongodb';
 import { SearchResults } from './SearchResults';
 import { SearchCriteria } from './SearchCriteria';
@@ -11,7 +11,7 @@ import { Review } from './entities/review.entity';
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
-    private readonly productsRepository: Repository<Product>,
+    private readonly productsRepository: MongoRepository<Product>,
     @InjectRepository(Review)
     private readonly reviewsRepository: Repository<Review>,
   ) {
@@ -56,6 +56,23 @@ export class ProductsService {
       return Promise.resolve(null);
     } catch (e) {
       return Promise.resolve(null);
+    }
+  }
+
+  async getProduct(productId: string): Promise<any> {
+    try {
+      const product = await this.productsRepository.aggregate([
+        { $match: { _id: ObjectID(productId)}},
+        { $project: { name: 1, description: 1, descriptionDetail: 1, ingredients: 1, nutrients: 1, productUrl: 1, 'photos._id': 1, topics: 1}},
+        { $lookup: { from: 'prices', localField: '_id', foreignField: 'productId', as: 'prices' } },
+        { $lookup: { from: 'ratings', localField: '_id', foreignField: 'productId', as: 'ratings' } },
+        { $lookup: { from: 'sentiments', localField: '_id', foreignField: 'productId', as: 'sentiments' } },
+        { $lookup: { from: 'reviews', localField: '_id', foreignField: 'productId', as: 'reviews' } },
+      ]).toArray();
+      if (!product.length) throw new NotFoundException('','Product not found for the given id')
+      return product[0]
+    } catch (e) {
+      throw new NotFoundException('','Product not found for the given id')
     }
   }
 }
