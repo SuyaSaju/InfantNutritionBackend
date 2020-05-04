@@ -4,6 +4,7 @@ import { BrandNutrientDto } from './dtos/BrandNutrientDto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { BrandIngredientDto } from './dtos/BrandIngredientDto';
 import { BrandReviewStats } from './dtos/BrandReviewStats';
+import { BrandRatingsCount } from './dtos/BrandRatingsCount';
 
 @Controller('brands')
 export class BrandsController {
@@ -22,9 +23,15 @@ export class BrandsController {
     return this.brandsService.findIngredientsPerBrand();
   }
 
-  @ApiOkResponse({ description: 'Returns the stats of reviews in each brand' })
+  @ApiOkResponse({ description: 'Returns the stats of reviews in each brand for the specified time interval' })
   @Get('reviews')
   async getReviewStats(@Query() startDate: Date, @Query() endDate: Date): Promise<BrandReviewStats[]> {
     return this.brandsService.getReviewStats(startDate, endDate)
+  }
+
+  @ApiOkResponse({ description: 'Returns the number of ratings in each brand for the specified time interval' })
+  @Get('ratings')
+  async getBrandRatingsCount(@Query() startDate: Date, @Query() endDate: Date): Promise<BrandRatingsCount[]> {
+    return this.brandsService.getBrandRatingsCount(startDate, endDate)
   }
 }

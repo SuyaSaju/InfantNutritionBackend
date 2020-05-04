@@ -7,6 +7,8 @@ import { BrandIngredientDto } from './dtos/BrandIngredientDto';
 import { BrandReviewStats } from './dtos/BrandReviewStats';
 import { Review, ReviewSentiment } from '../products/entities/review.entity';
 import { Product } from '../products/entities/product.entity';
+import { BrandRatingsCount } from './dtos/BrandRatingsCount';
+import { Rating } from '../products/entities/rating.entity';
 
 export interface NutrientProductResult {
   productCount: number;
@@ -23,6 +25,11 @@ interface BrandSentiments {
   sentiments: ReviewSentiment[]
 }
 
+interface BrandRatingCount {
+  _id: string;
+  count: number;
+}
+
 @Injectable()
 export class BrandsService {
   constructor(
@@ -32,6 +39,8 @@ export class BrandsService {
     private readonly productsRepository: MongoRepository<Product>,
     @InjectRepository(Review)
     private readonly reviewsRepository: MongoRepository<Review>,
+    @InjectRepository(Rating)
+    private readonly ratingsRepository: MongoRepository<Rating>,
   ) {
   }
 
@@ -68,16 +77,31 @@ export class BrandsService {
 
   async getReviewStats(startDate: Date, endDate: Date): Promise<BrandReviewStats[]> {
     const brandSentimentsInTimeRange: BrandSentiments[] = await this.reviewsRepository.aggregate([
-      { $match: { date: { $gte: new Date('2010-05-01'), $lt: new Date('2010-05-30') } } },
+      { $match: { date: { $gte: new Date('2010-05-01'), $lte: new Date('2010-05-30') } } },
       { $group: { _id: '$brandId', sentiments: { $push: '$sentiment' } } },
     ]).toArray();
     const brands = await this.getAllBrands();
     return brands.map(brand => {
       const brandSentiments = brandSentimentsInTimeRange.find(brandSentiments => {
-        return brandSentiments._id == brand.id.toString()
+        return brandSentiments._id == brand.id.toString();
       });
-      if (!brandSentiments) return new BrandReviewStats(brand, [])
-      return new BrandReviewStats(brand, brandSentiments.sentiments)
+      if (!brandSentiments) return new BrandReviewStats(brand, []);
+      return new BrandReviewStats(brand, brandSentiments.sentiments);
+    });
+  }
+
+  async getBrandRatingsCount(startDate: Date, endDate: Date): Promise<BrandRatingsCount[]> {
+    const brandRatingCounts: BrandRatingCount[] = await this.ratingsRepository.aggregate([
+      { $match: { date: { $gte: new Date('2020-05-01'), $lte: new Date('2020-06-30') } } },
+      { $group: { _id: '$brandId', count: { $sum: 1 } } },
+    ]).toArray();
+    const brands = await this.getAllBrands();
+    return brands.map(brand => {
+      const brandRating = brandRatingCounts.find(brandRating => {
+        return brandRating._id == brand.id.toString();
+      });
+      if (!brandRating) return new BrandRatingsCount(brand, 0);
+      return new BrandRatingsCount(brand, brandRating.count);
     });
   }
 
