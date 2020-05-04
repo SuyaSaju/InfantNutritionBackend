@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, ObjectID, ObjectIdColumn } from 'typeorm';
-import { Product } from './product.entity';
+import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
 @Entity({ name: 'reviews' })
 export class Review {
@@ -10,7 +9,6 @@ export class Review {
   brandId: string;
 
   @Column()
-  @ManyToOne(type => Product, product => product.reviews)
   productId: string;
 
   @Column()

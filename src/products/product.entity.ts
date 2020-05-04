@@ -26,7 +26,6 @@ export class Product {
   photos: Photo[];
 
   @Column()
-  @OneToMany(type => Review, review => review.productId)
   reviews: Review[];
 
   @Column()

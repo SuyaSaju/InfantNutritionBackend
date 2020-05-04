@@ -36,10 +36,6 @@ export class ProductsController {
     status: 200,
     description: 'Returns the list of reviews associated to the product given a product id',
   })
-  @ApiResponse({
-    status: 404,
-    description: 'Not Found Exception when there are no products matching the given product id',
-  })
   @Get('products/:productId/reviews')
   async getReviews(@Param('productId') productId: string): Promise<Review[]> {
     return this.productsService.getReviews(productId);

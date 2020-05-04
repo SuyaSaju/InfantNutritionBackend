@@ -37,12 +37,7 @@ export class ProductsService {
   }
 
   async getReviews(productId: string): Promise<Review[]> {
-    try {
-      const product = await this.productsRepository.findOneOrFail(productId, { select: ['reviews'] });
-      return product.reviews;
-    } catch (e) {
-      throw new NotFoundException('', 'Product not found for the given id');
-    }
+    return this.reviewsRepository.find({ where: { productId: ObjectID(productId) } });
   }
 
   async findByImage(productId: string, imageId: string): Promise<Buffer> {

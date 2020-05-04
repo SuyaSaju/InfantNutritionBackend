@@ -1,8 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { BrandsService } from './brands.service';
 import { BrandNutrientDto } from './dtos/BrandNutrientDto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { BrandIngredientDto } from './dtos/BrandIngredientDto';
+import { BrandReviewStats } from './dtos/BrandReviewStats';
 
 @Controller('brands')
 export class BrandsController {
@@ -19,5 +20,11 @@ export class BrandsController {
   @Get('ingredients')
   async findIngredientsPerBrand(): Promise<BrandIngredientDto[]> {
     return this.brandsService.findIngredientsPerBrand();
+  }
+
+  @ApiOkResponse({ description: 'Returns the stats of reviews in each brand' })
+  @Get('reviews')
+  async getReviewStats(@Query() startDate: Date, @Query() endDate: Date): Promise<BrandReviewStats[]> {
+    return this.brandsService.getReviewStats(startDate, endDate)
   }
 }

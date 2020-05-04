@@ -5,6 +5,8 @@ import { MongoRepository, Repository } from 'typeorm';
 import { BrandNutrientDto } from './dtos/BrandNutrientDto';
 import { Brand } from './Brand.entity';
 import { BrandIngredientDto } from './dtos/BrandIngredientDto';
+import { Review, ReviewSentiment } from '../products/review.entity';
+import { BrandReviewStats } from './dtos/BrandReviewStats';
 
 export interface NutrientProductResult {
   productCount: number;
@@ -16,6 +18,11 @@ export interface IngredientProductResult {
   ingredient: string;
 }
 
+interface BrandSentiments {
+  _id: string;
+  sentiments: ReviewSentiment[]
+}
+
 @Injectable()
 export class BrandsService {
   constructor(
@@ -23,6 +30,8 @@ export class BrandsService {
     private readonly brandsRepository: Repository<Brand>,
     @InjectRepository(Product)
     private readonly productsRepository: MongoRepository<Product>,
+    @InjectRepository(Review)
+    private readonly reviewsRepository: MongoRepository<Review>,
   ) {
   }
 
@@ -55,6 +64,21 @@ export class BrandsService {
       ], {}).toArray();
       return new BrandIngredientDto(brand, ingredientProductResults, noOfProductsInBrand);
     }));
+  }
+
+  async getReviewStats(startDate: Date, endDate: Date): Promise<BrandReviewStats[]> {
+    const brandSentimentsInTimeRange: BrandSentiments[] = await this.reviewsRepository.aggregate([
+      { $match: { date: { $gte: new Date('2010-05-01'), $lt: new Date('2010-05-30') } } },
+      { $group: { _id: '$brandId', sentiments: { $push: '$sentiment' } } },
+    ]).toArray();
+    const brands = await this.getAllBrands();
+    return brands.map(brand => {
+      const brandSentiments = brandSentimentsInTimeRange.find(brandSentiments => {
+        return brandSentiments._id == brand.id.toString()
+      });
+      if (!brandSentiments) return new BrandReviewStats(brand, [])
+      return new BrandReviewStats(brand, brandSentiments.sentiments)
+    });
   }
 
   private getAllBrands(): Promise<Brand[]> {
