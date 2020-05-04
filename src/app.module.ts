@@ -9,6 +9,7 @@ import { Sentiment } from './products/entities/sentiment.entity';
 import { Price } from './products/entities/price.entity';
 import { Review } from './products/entities/review.entity';
 import { BrandsModule } from './brands/brands.module';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -23,7 +24,7 @@ import { BrandsModule } from './brands/brands.module';
         'authSource': 'admin',
       },
     },
-  ), ProductsModule, BrandsModule],
+  ), ProductsModule, BrandsModule, StatsModule],
   controllers: [AppController],
 })
 export class AppModule {
