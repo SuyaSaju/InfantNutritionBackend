@@ -18,3 +18,8 @@ To start the web-server locally, run
 
 - We have chosen fastify as the underlying http server framework as it is very efficient and faster than the default express server 
 
+## Deployment
+
+### MongoDB Schema change
+- Import the db provided in forum in your local machine
+- 

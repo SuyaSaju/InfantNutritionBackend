@@ -25,7 +25,7 @@ export class BrandsController {
 
   @ApiOkResponse({ description: 'Returns the stats of reviews in each brand for the specified time interval' })
   @Get('reviews')
-  async getReviewStats(@Query() startDate: Date, @Query() endDate: Date): Promise<BrandReviewStats[]> {
+  async getReviewStats(@Query('startDate') startDate: string, @Query('endDate') endDate: string): Promise<BrandReviewStats[]> {
     return this.brandsService.getReviewStats(startDate, endDate)
   }
 
