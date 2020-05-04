@@ -9,6 +9,12 @@ const random = (min, max) => { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
+function createAPastDate() {
+  const randomDate = new Date();
+  randomDate.setDate(randomDate.getDate() - 30);
+  return randomDate;
+}
+
 export const createReviewsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Review);
   const products = await productRepository.find({select: ['brandId', 'reviews', 'id']})
@@ -26,40 +32,63 @@ export const createReviewsCollection = async (productRepository) => {
       })
     }
   });
-  console.log(count + " reviews are added to `reviews` collection")
+  return {
+    "reviewsCollection" : count + " mock reviews are added to reviews collection!"
+  }
 };
 
 export const createSentimentCollection = async (productRepository) => {
   const sentimentRepository = getMongoRepository(Sentiment);
   const products = await productRepository.find({select: ['sentiment', 'id']})
   let count = 1;
+  const randomDate = createAPastDate();
+
   products.forEach((product : Product) => {
-    console.log(product);
     if(product.sentiment) {
       sentimentRepository.insertOne({
         ...product.sentiment,
         productId: product.id,
+        date: randomDate
       });
       ++count
     }
   });
-  console.log(count + " sentiments data extracted from Product table to ratings table")
-  return products
+  const sentiments = await sentimentRepository.find()
+  sentiments.forEach((sentiment : Sentiment) => {
+    for(let i = 1; i < 4; i ++) {
+      delete sentiment.id
+      randomDate.setDate(randomDate.getDate() + random(1,25));
+      sentiment.compound = Math.random()
+      sentiment.positive = Math.random()
+      sentiment.negative = Math.random()
+      sentiment.neutral = Math.random()
+      sentiment.date = randomDate
+      sentimentRepository.insertOne({
+        ...sentiment,
+      });
+      ++count
+    }
+  });
+  return {
+    "sentimentsCollection" : count + " mock sentiments are added to sentiments collection!"
+  }
 
 };
+
+
 
 export const createPriceCollection = async (productRepository) => {
   const priceRepository = getMongoRepository(Price);
   const products = await productRepository.find({select: ['price', 'id']})
   let count = 1;
-  const today = new Date();
+  const randomDate = createAPastDate();
 
   products.forEach((product : Product) => {
     if(product.price) {
       priceRepository.insertOne({
         ...product.price,
         productId: product.id,
-        date: today
+        date: randomDate
       });
       ++count
     }
@@ -67,24 +96,22 @@ export const createPriceCollection = async (productRepository) => {
   const prices = await priceRepository.find()
   prices.forEach((price : Price) => {
     for(let i = 1; i < 4; i ++) {
-      today.setDate(today.getDate() + 1);
+      randomDate.setDate(randomDate.getDate() + random(1,25));
       const newPrice = {
         amount: price.amount + random(1, 10),
         productId: price.productId,
         currency: price.currency,
-        date: today,
+        date: randomDate,
       };
 
       priceRepository.insertOne({
         ...newPrice,
       });
       ++count
-      console.log("new price: "+JSON.stringify(newPrice));
     }
   });
-  console.log(count + " mock prices are added to Price table")
   return {
-    "priceCollection" : count + " mock prices are added to price collection!"
+    "pricesCollection" : count + " mock prices are added to price collection!"
   }
 
 };
@@ -92,20 +119,38 @@ export const createPriceCollection = async (productRepository) => {
 export const createRatingsCollection = async (productRepository) => {
   const ratingRepository = getMongoRepository(Rating);
   const products = await productRepository.find({select: ['brandId', 'rating', 'id']})
-  let count = 1
+  let count = 1;
+  const randomDate = createAPastDate();
+
   products.forEach((product : Product) => {
-    console.log(product)
     if(product.rating) {
       ratingRepository.insertOne({
         ...product.rating,
         productId: product.id,
-        brandId: product.brandId
+        brandId: product.brandId,
+        date: randomDate
       });
       ++count
     }
   });
-  console.log(count + " ratings data extracted from Product table to ratings table")
-  return products
+  const ratings = await ratingRepository.find()
+  ratings.forEach((rating : Rating) => {
+    for(let i = 1; i < 4; i ++) {
+      randomDate.setDate(randomDate.getDate() + random(1,25));
+      if(rating.overall != 5) {
+        rating.overall = random(0, 5)
+      }
+      rating.date = randomDate
+
+      ratingRepository.insertOne({
+        ...rating,
+      });
+      ++count
+    }
+  });
+  return {
+    "ratingsCollection" : count + " mock ratings are added to ratings collection!"
+  }
 
 }
 
@@ -134,6 +179,7 @@ export const updateBrandIdInProductCollection =  async (productRepository, brand
         $set: { 'brandId': value },
       });
   });
-  console.log(`${productBrandMap.size} products are updated with brand id`);
-  return productBrandMap;
-}
+  return {
+    "sentimentsCollection" : productBrandMap.size + " products are updated with brand id!"
+  }
+};

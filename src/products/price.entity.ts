@@ -12,5 +12,8 @@ export class Price {
   amount: number;
 
   @Column()
-  currency: string
+  currency: string;
+
+  @Column()
+  date: Date
 }

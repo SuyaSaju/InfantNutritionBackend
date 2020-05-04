@@ -20,4 +20,7 @@ export class Sentiment {
   @Column()
   compound: number;
 
+  @Column()
+  date: Date;
+
 }

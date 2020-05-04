@@ -31,4 +31,7 @@ export class Rating {
 
   @Column()
   oneStars: number;
+
+  @Column()
+  date: Date
 }
