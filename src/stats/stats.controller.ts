@@ -19,6 +19,7 @@ export class StatsController {
 
   @Get('priceChanges')
   async getPriceChanges(@Query('startDate') startDate: string, @Query('endDate') endDate: string) {
-    return this.statsService.getProductsWithMaxPriceChange(startDate, endDate)
+    const priceChange = await this.statsService.getProductsWithMaxPriceChange(startDate, endDate);
+    return priceChange
   }
 }
