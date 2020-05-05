@@ -25,9 +25,10 @@ export class BrandsController {
   }
 
   @ApiOkResponse({ description: 'Returns the stats of reviews in each brand for the specified time interval' })
+  @ApiBadRequestResponse({ description: 'Throws bad request exception if start date or end date is not a date' })
   @Get('reviews')
-  async getReviewStats(@Query('startDate') startDate: string, @Query('endDate') endDate: string): Promise<BrandReviewStats[]> {
-    return this.brandsService.getReviewStats(startDate, endDate)
+  async getReviewStats(@Query(new ValidationPipe()) timeline: Timeline): Promise<BrandReviewStats[]> {
+    return this.brandsService.getReviewStats(timeline)
   }
 
   @ApiOkResponse({ description: 'Returns the number of ratings in each brand for the specified time interval' })

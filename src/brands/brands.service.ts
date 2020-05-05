@@ -76,9 +76,9 @@ export class BrandsService {
     }));
   }
 
-  async getReviewStats(startDate: string, endDate: string): Promise<BrandReviewStats[]> {
+  async getReviewStats(timeline: Timeline): Promise<BrandReviewStats[]> {
     const brandSentimentsInTimeRange: BrandSentiments[] = await this.reviewsRepository.aggregate([
-      { $match: { date: { $gte: new Date(startDate), $lte: new Date(endDate) } } },
+      { $match: { date: { $gte: new Date(timeline.startDate), $lte: new Date(timeline.endDate) } } },
       { $group: { _id: '$brandId', sentiments: { $push: '$sentiment' } } },
     ]).toArray();
     const brands = await this.getAllBrands();
