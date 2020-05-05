@@ -1,0 +1,296 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Infant Nutrition API description",
+    "description": "",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {},
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getProductName",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/migrate": {
+      "get": {
+        "operationId": "AppController_migrate",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "operationId": "ProductsController_searchProduct",
+        "parameters": [
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the product",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "brand",
+            "required": false,
+            "in": "query",
+            "description": "Brand of the product. If brand= is explicity passed as query param, matches with products having no brand. If no brand is passed, ignores the brand from search criteria",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Start index of the products to be fetched to support pagination",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of products to be fetched in this request. Defaults to 5",
+            "default": 5,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of products and the metadata information to help in pagination"
+          },
+          "404": {
+            "description": "Not Found Exception when there are no products matching the search criteria"
+          }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "get": {
+        "operationId": "ProductsController_getProduct",
+        "parameters": [
+          {
+            "name": "productId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the details of the product for the given product id with historical price, ratings, review and sentiments data"
+          },
+          "404": {
+            "description": "Not Found Exception when there is no product for the given id"
+          }
+        }
+      }
+    },
+    "/products/{productId}/reviews": {
+      "get": {
+        "operationId": "ProductsController_getReviews",
+        "parameters": [
+          {
+            "name": "productId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of reviews associated to the product given a product id"
+          }
+        }
+      }
+    },
+    "/products/{productId}/images/{imageId}": {
+      "get": {
+        "operationId": "ProductsController_getImage",
+        "parameters": [
+          {
+            "name": "productId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "imageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the product's image for the given productId and imageId"
+          },
+          "404": {
+            "description": "Not Found Exception when there are no images matching the given criteria"
+          }
+        }
+      }
+    },
+    "/brands/nutrients": {
+      "get": {
+        "operationId": "BrandsController_findNutrientsPerBrand",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the product percentages for all nutrients present in each brand"
+          }
+        }
+      }
+    },
+    "/brands/ingredients": {
+      "get": {
+        "operationId": "BrandsController_findIngredientsPerBrand",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the product percentages for all ingredients present in each brand"
+          }
+        }
+      }
+    },
+    "/brands/reviews": {
+      "get": {
+        "operationId": "BrandsController_getReviewStats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the stats of reviews in each brand for the specified time interval"
+          },
+          "400": {
+            "description": "Throws bad request exception if start date or end date is not a date"
+          }
+        }
+      }
+    },
+    "/brands/ratings": {
+      "get": {
+        "operationId": "BrandsController_getBrandRatingsCount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the number of ratings in each brand for the specified time interval"
+          },
+          "400": {
+            "description": "Throws bad request exception if start date or end date is not a date"
+          }
+        }
+      }
+    },
+    "/stats/ratingChanges": {
+      "get": {
+        "operationId": "StatsController_getRatingsChange",
+        "parameters": [
+          {
+            "name": "startDate",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns products with largest overall rating change in the provided time interval - returns top 10 results"
+          }
+        }
+      }
+    },
+    "/stats/priceChanges": {
+      "get": {
+        "operationId": "StatsController_getPriceChanges",
+        "parameters": [
+          {
+            "name": "startDate",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns products with largest price change in the provided time interval - returns top 10 results"
+          }
+        }
+      }
+    },
+    "/stats/sentimentChanges": {
+      "get": {
+        "operationId": "StatsController_getSentimentChanges",
+        "parameters": [
+          {
+            "name": "startDate",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  }
+}

@@ -6,13 +6,7 @@ This repository consists of a set of apis to query info about products, brands e
 
 This project is built using nestjs with fastify. The underlying database is mongodb and we have used typeORM to fetch this data. 
 
-## Verification Document
-
-To verify that all the apis are working as expected, you can refer to the postman collection. There are 11 request in this collection and for each request, all possible scenarios has been documented in the form of examples in postman. The postman collection is exported as a json in `postman_collection.json` which can be found at the root of the project. Import this file into postman.
-
 ## Deployment
-
-As the original database is heavy in size, we didn't create docker images. Follow the below steps to start the application.
 
 ### Setting up the Initial Database
 
@@ -46,9 +40,18 @@ Migrate endpoint will automatically update the existing database with the new sc
 
 Once this is successful, you can check other endpoints.
 
+## Verification Document
+
+To verify that all the apis are working as expected, you can refer to the [postman collection](postman_collection.json). There are 11 request in this collection and for each request, all possible scenarios has been documented in the form of examples in postman. The postman collection is exported as a json in `postman_collection.json` which can be found at the root of the project. Import this file into postman.
+
+You can see all the endpoints in swagger [docs](swagger_docs.json) as well.
+
+http://localhost:3000/docs
+
 ## Notes
 
-We have chosen fastify as the underlying http server framework as it is very efficient and faster than the default express server 
+- As the original database is heavy in size, it takes a long time to download and migrate the data(>1.5GB) inside the lightweight docker container. We have docker-compose to launch the app and db once ready in the future. 
+- We have chosen fastify as the underlying http server framework as it is very efficient and faster than the default express server
 
 
 
