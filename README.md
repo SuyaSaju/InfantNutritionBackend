@@ -16,7 +16,7 @@ To start the web-server locally, run
 
 ## Verification Document
 
-To verify that all the apis are working as expected, you can refer to the postman collection. There are 11 request in this collection and for each request, all possible scenarios has been documented in the form of examples in postman. 
+To verify that all the apis are working as expected, you can refer to the postman collection. There are 11 request in this collection and for each request, all possible scenarios has been documented in the form of examples in postman. The postman collection is exported as a json in `postman_collection.json` which can be found at the root of the project. Import this file into postman.
 
 ## Notes
 
