@@ -4,3 +4,22 @@ services:
     build: .
     ports:
       - 3000:3000
+    networks:
+      - infant_nutrition
+  db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./nutrition:/data/db
+    ports:
+      - "28000:27017"
+    networks:
+      - infant_nutrition
+    logging:
+      driver: none
+networks:
+  infant_nutrition:
+    driver: bridge

@@ -10,15 +10,16 @@ import { Price } from './products/entities/price.entity';
 import { Review } from './products/entities/review.entity';
 import { BrandsModule } from './brands/brands.module';
 import { StatsModule } from './stats/stats.module';
+import { AppService } from './app.service';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
       'type': 'mongodb',
-      'host': '192.168.0.5',
+      'host': 'db',
       'port': 27017,
       'database': 'nutrition',
-      'username': 'test',
-      'password': 'test',
+      'username': 'root',
+      'password': 'password',
       'entities': [Product, Brand, Rating, Review, Price, Sentiment],
       'extra': {
         'authSource': 'admin',
@@ -26,6 +27,7 @@ import { StatsModule } from './stats/stats.module';
     },
   ), ProductsModule, BrandsModule, StatsModule],
   controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {
 }

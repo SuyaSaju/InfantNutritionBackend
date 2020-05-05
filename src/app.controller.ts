@@ -1,16 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
-import { getMongoRepository } from 'typeorm';
-import { Brand } from './brands/Brand.entity';
-import {
-  createPriceCollection,
-  createRatingsCollection,
-  createReviewsCollection, createSentimentCollection,
-  updateBrandIdInProductCollection,
-} from './migration';
-import { Product } from './products/entities/product.entity';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
+  constructor(private readonly appService: AppService) {
+  }
 
   @Get()
   getProductName(): string {
@@ -19,14 +13,11 @@ export class AppController {
 
   @Get('migrate')
   async migrate() {
-    const productRepository = getMongoRepository(Product);
-    const brandRepository = getMongoRepository(Brand);
-
-    const brandIdResults = await updateBrandIdInProductCollection(productRepository, brandRepository);
-    const ratingsResult = await createRatingsCollection(productRepository);
-    const reviewsResult = await createReviewsCollection(productRepository);
-    const pricesResult = await createPriceCollection(productRepository);
-    const sentimentsResult = await createSentimentCollection(productRepository);
+    const brandIdResults = await this.appService.updateBrandIdInProductCollection();
+    const ratingsResult = await this.appService.createRatingsCollection();
+    const reviewsResult = await this.appService.createReviewsCollection();
+    const pricesResult = await this.appService.createPriceCollection();
+    const sentimentsResult = await this.appService.createSentimentCollection();
 
     return {
       ...brandIdResults,
