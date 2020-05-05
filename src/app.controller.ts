@@ -20,6 +20,7 @@ export class AppController {
     const sentimentsResult = await this.appService.createSentimentCollection();
 
     return {
+      'status:' : 'migration completed successfully',
       ...brandIdResults,
       ...sentimentsResult,
       ...reviewsResult,
