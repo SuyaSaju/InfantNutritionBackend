@@ -5,7 +5,7 @@ import { Price } from './price.entity';
 import { Sentiment } from './sentiment.entity';
 import { Photo } from '../Photo';
 
-@Entity({ name: 'products_v1' })
+@Entity({ name: 'products' })
 export class Product {
   @ObjectIdColumn()
   id: ObjectID;

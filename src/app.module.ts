@@ -15,17 +15,17 @@ import { AppService } from './app.service';
 @Module({
   imports: [TypeOrmModule.forRoot({
       'type': 'mongodb',
-      'host': 'db',
+      'host': 'localhost',
       'port': 27017,
-      'database': 'nutrition',
-      'username': 'root',
-      'password': 'password',
+      'database': 'nutrition_v1',
+      'username': 'test',
+      'password': 'test',
       'entities': [Product, Brand, Rating, Review, Price, Sentiment],
       'extra': {
         'authSource': 'admin',
       },
     },
-  ), ProductsModule, BrandsModule, StatsModule],
+  ), ProductsModule, BrandsModule, StatsModule, TypeOrmModule.forFeature([Product, Brand])],
   controllers: [AppController],
   providers: [AppService],
 })
