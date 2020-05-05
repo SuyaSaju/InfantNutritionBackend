@@ -16,11 +16,22 @@ export class BrandReviewStats {
     this.positiveReviewsCount = 0;
     this.negativeReviewsCount = 0;
     this.neutralReviewsCount = 0;
+    this.averageReviewSentiment = 0;
     sentiments.forEach(sentiment => {
-      if (sentiment.positive > 0) this.positiveReviewsCount += 1;
-      if (sentiment.negative > 0) this.negativeReviewsCount += 1;
-      if (sentiment.neutral > 0) this.neutralReviewsCount += 1;
+      const maximumWeight = Math.max(sentiment.positive, sentiment.neutral, sentiment.negative);
+      if (sentiment.positive === maximumWeight) {
+        this.averageReviewSentiment += sentiment.positive;
+        this.positiveReviewsCount += 1;
+      }
+      else if (sentiment.negative  === maximumWeight) {
+        this.averageReviewSentiment += sentiment.negative;
+        this.negativeReviewsCount += 1;
+      }
+      else if (sentiment.neutral === maximumWeight) {
+        this.averageReviewSentiment += sentiment.neutral;
+        this.neutralReviewsCount += 1;
+      }
     });
-    this.averageReviewSentiment = (this.positiveReviewsCount + this.negativeReviewsCount + this.neutralReviewsCount) / 3;
+    this.averageReviewSentiment = this.averageReviewSentiment / this.reviewsCount;
   }
 }
